@@ -67,7 +67,7 @@ jobs:
 #          path: staging-directory
   deploy-release:
     name: Deploy release
-    needs: native-image
+#    needs: native-image
     runs-on: ubuntu-latest
     environment: Deployment
     steps:

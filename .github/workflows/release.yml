@@ -101,9 +101,5 @@ jobs:
 
       - name: Deploy release files
         run: |
-#          for FILE in downloads/*; do
-#            ./ci_scripts/deploy_artifact.sh $FILE dev.jtrim777.bazeldeps $FILE "${{ env.VERSION }}" \
-#              "${{ env.REPO_USER }}" "${{ env.REPO_PASS }}"
-#          done
           ./ci_scripts/deploy_artifact.sh update_dependencies.sh dev.jtrim777.bazeldeps test \
             "${{ env.VERSION }}" "${{ env.REPO_USER }}" "${{ env.REPO_PASS }}"

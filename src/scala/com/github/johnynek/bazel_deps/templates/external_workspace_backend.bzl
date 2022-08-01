@@ -9,7 +9,8 @@ java_library(
   ],
   visibility = [
       "{visibility}"
-  ]
+  ],
+  tags=["maven_coordinates={artifact}"],
 )\n"""
 
 _SCALA_IMPORT_TEMPLATE = """
@@ -26,7 +27,8 @@ scala_import(
     ],
     visibility = [
         "{visibility}"
-    ]
+    ],
+    tags=["maven_coordinates={artifact}"],
 )
 """
 
@@ -41,7 +43,8 @@ scala_library(
     ],
     visibility = [
         "{visibility}"
-    ]
+    ],
+    tags=["maven_coordinates={artifact}"],
 )
 """
 
@@ -87,12 +90,13 @@ def _build_external_workspace_from_opts_impl(ctx):
           runtime_deps_str += "\"" + e + "\",\n"
 
         name = entry_map["name"].split(":")[1]
+        artifact = entry_map["identifier"]
         if entry_map["lang"] == "java":
-            build_file_contents += _JAVA_LIBRARY_TEMPLATE.format(name = name, exports=exports_str, runtime_deps=runtime_deps_str, visibility=entry_map["visibility"])
+            build_file_contents += _JAVA_LIBRARY_TEMPLATE.format(name = name, artifact = artifact, exports=exports_str, runtime_deps=runtime_deps_str, visibility=entry_map["visibility"])
         elif entry_map["lang"].startswith("scala") and entry_map["kind"] == "import":
-            build_file_contents += _SCALA_IMPORT_TEMPLATE.format(name = name, exports=exports_str, jars=jars_str, runtime_deps=runtime_deps_str, visibility=entry_map["visibility"])
+            build_file_contents += _SCALA_IMPORT_TEMPLATE.format(name = name, artifact = artifact, exports=exports_str, jars=jars_str, runtime_deps=runtime_deps_str, visibility=entry_map["visibility"])
         elif entry_map["lang"].startswith("scala") and entry_map["kind"] == "library":
-            build_file_contents += _SCALA_LIBRARY_TEMPLATE.format(name = name, exports=exports_str, runtime_deps=runtime_deps_str, visibility=entry_map["visibility"])
+            build_file_contents += _SCALA_LIBRARY_TEMPLATE.format(name = name, artifact = artifact, exports=exports_str, runtime_deps=runtime_deps_str, visibility=entry_map["visibility"])
         else:
             print(entry_map)
 

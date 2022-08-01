@@ -156,9 +156,10 @@ object Target {
           licenses <- get("licenses").map(_.toSet)
           generatesApi <- getBoolean("generatesApi")
           generateNeverlink <- getBoolean("generateNeverlink")
+          aid <- getS("identifier")
       } yield {
         Target(
-          lang, name, visibility, kind, deps, jars, sources, exports, runtimeDeps, processorClasses, generatesApi, licenses, generateNeverlink)
+          lang, name, if (aid.isEmpty) None else Some(aid), visibility, kind, deps, jars, sources, exports, runtimeDeps, processorClasses, generatesApi, licenses, generateNeverlink)
       }
     }
   }
@@ -167,6 +168,7 @@ object Target {
 case class Target(
   lang: Language,
   name: Label,
+  identifier: Option[String],
   visibility: Target.Visibility,
   kind: Target.Kind = Target.Library,
   deps: Set[Label] = Set.empty,
@@ -217,6 +219,7 @@ case class Target(
     Traverse[List].sequence(List[Result[String]](
       withName("lang", lang.asReversableString),
       withName("name", name.fromRoot),
+      withName("identifier", identifier.getOrElse("")),
       withName("visibility", visibility.asString),
       withName("kind", kind.toString),
       withNameL("deps", deps.map(_.fromRoot)),

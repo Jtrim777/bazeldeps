@@ -69,6 +69,7 @@ jobs:
     name: Deploy release
     needs: native-image
     runs-on: ubuntu-latest
+    environment: Deployment
     steps:
       - uses: actions/checkout@v2
 

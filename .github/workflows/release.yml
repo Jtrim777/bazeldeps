@@ -90,8 +90,11 @@ jobs:
 #          name: bazel-deps-macos
 #          path: downloads
 #
-#      - name: show downloads
-#        run : ls -R downloads
+      - name: show downloads
+        run : |
+          mkdir downloads
+          echo "test" > downloads/bazel-deps-linux.sha256
+          echo "test" > downloads/bazel-deps-macos.sha256
 
       - name: Build update_dependencies.sh
         run: ./ci_scripts/make_update_dependencies.sh "v${{ env.VERSION }}"
@@ -102,5 +105,5 @@ jobs:
 #            ./ci_scripts/deploy_artifact.sh $FILE dev.jtrim777.bazeldeps $FILE "${{ env.VERSION }}" \
 #              "${{ env.REPO_USER }}" "${{ env.REPO_PASS }}"
 #          done
-          ./ci_scripts/deploy_artifact.sh update_dependencies.sh dev.jtrim777.bazeldeps update_dependencies.sh \
+          ./ci_scripts/deploy_artifact.sh update_dependencies.sh dev.jtrim777.bazeldeps test \
             "${{ env.VERSION }}" "${{ env.REPO_USER }}" "${{ env.REPO_PASS }}"

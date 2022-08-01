@@ -102,4 +102,4 @@ jobs:
       - name: Deploy release files
         run: |
           ./ci_scripts/deploy_artifact.sh update_dependencies.sh dev.jtrim777.bazeldeps test \
-            "${{ env.VERSION }}" "${{ secret.REPO_USER }}" "${{ secret.REPO_PASS }}"
+            "${{ env.VERSION }}" "${{ secrets.REPO_USER }}" "${{ secrets.REPO_PASS }}"
